@@ -2,12 +2,22 @@ document.addEventListener('DOMContentLoaded', () => {
   input.focus(); // Define o foco no input ao carregar a página
 });
 
-const backgroundMusic = document.getElementById('background-music');
-backgroundMusic.volume = 0.2; // Define o volume do áudio para 0%
-document.body.addEventListener('click', () => {
-  if (backgroundMusic.paused) {
-    backgroundMusic.play();
+const backgroundSong = document.getElementById('background-song');
+backgroundSong.volume = 0.2;
+
+const playAudio = () => {
+  if (backgroundSong.paused) {
+    backgroundSong.play()
+      .then(() => {
+        eventos.forEach(ev => document.body.removeEventListener(ev, playAudio));
+      })
   }
+};
+
+const eventos = ['click', 'keydown', 'touchstart'];
+
+eventos.forEach(ev => {
+  document.body.addEventListener(ev, playAudio);
 });
 
 const pokemonName = document.querySelector('.pokemon_name');
