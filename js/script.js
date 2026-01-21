@@ -6,18 +6,17 @@ const backgroundSong = document.getElementById('background-song');
 backgroundSong.volume = 0.2;
 
 const playAudio = () => {
-  if (backgroundSong.paused) {
-    backgroundSong.play()
-      .then(() => {
-        eventos.forEach(ev => document.body.removeEventListener(ev, playAudio));
-      })
+  if (backgroundSong) {
+    backgroundSong.play().catch(() => {
+      // Evita o erro "Uncaught" no console se o autoplay for bloqueado.
+    });
   }
 };
 
 const eventos = ['click', 'keydown', 'touchstart'];
 
 eventos.forEach(ev => {
-  document.body.addEventListener(ev, playAudio);
+  document.body.addEventListener(ev, playAudio, { once: true });
 });
 
 const pokemonName = document.querySelector('.pokemon_name');
