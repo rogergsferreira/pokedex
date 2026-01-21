@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  input.focus(); // Define o foco no input ao carregar a página
+  input.focus();
 });
 
 const backgroundSong = document.getElementById('background-song');
@@ -54,22 +54,20 @@ const renderPokemon = async (pokemon) => {
     pokemonName.innerHTML = data.name;
     pokemonNumber.innerHTML = data.id;
 
-    // Definindo as imagens de acordo com o ID do Pokémon
     if (data.id <= 649) {
       pokemon_imageGif.src = data['sprites']['versions']['generation-v']['black-white']['animated']['front_default'];
-      pokemon_imageGif.classList.remove('pokemon_image'); // Garante que a classe antiga é removida
+      pokemon_imageGif.classList.remove('pokemon_image');
     } else {
       pokemon_imageGif.src = data['sprites']['front_default'];
-      pokemon_imageGif.classList.add('pokemon_image'); // Adiciona a classe apenas para imagens grandes
+      pokemon_imageGif.classList.add('pokemon_image');
     }
 
     pokemonType.innerHTML = data.types.map(typeInfo => typeInfo.type.name).join(', ');
-    pokemonWeight.innerHTML = data.weight / 10 + ' kg'; // Convertendo para kg
-    pokemonHeight.innerHTML = data.height / 10 + ' m'; // Convertendo para metros
+    pokemonWeight.innerHTML = data.weight / 10 + ' kg';
+    pokemonHeight.innerHTML = data.height / 10 + ' m';
     input.value = '';
     searchPokemon = data.id;
 
-    // Definir e tocar o áudio baseado na URL retornada pela API
     if (data['cries'] && data['cries']['latest']) {
       // Se houver um áudio atual, pausá-lo
       if (currentAudio) {
@@ -78,7 +76,7 @@ const renderPokemon = async (pokemon) => {
       }
 
       currentAudio = new Audio(data['cries']['latest']);
-      currentAudio.volume = 0.4; // Definir o volume do áudio para 40%
+      currentAudio.volume = 0.4;
 
     } else {
       console.log('No audio found for this Pokémon');
@@ -117,7 +115,6 @@ buttonNext.addEventListener('click', () => {
   renderPokemon(searchPokemon);
 });
 
-// Adicionando a funcionalidade para as teclas de seta
 document.addEventListener('keydown', (event) => {
   if (event.key === 'ArrowLeft') {
     if (searchPokemon > 1) {
@@ -130,5 +127,4 @@ document.addEventListener('keydown', (event) => {
   }
 });
 
-// Renderizar o Pokémon inicial
 renderPokemon(searchPokemon);
